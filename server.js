@@ -1,14 +1,43 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-const express = require("express");
+const express = require('express');
+const mongoose = require('mongoose');
 const fetch = require("node-fetch");
 const cors = require("cors");
+
 const app = express();
 
 app.use(express.json()); // Ensure express can parse JSON bodies
 app.use(cors()); // Apply CORS for all routes
 
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => console.log("MongoDB connected successfully"))
+  .catch(err => console.error("MongoDB connection error:", err));
+
+// Image schema
+const ImageSchema = new mongoose.Schema({
+  url: String,
+  description: String
+});
+
+const Image = mongoose.model('Image', ImageSchema);
+
+// Route to get images
+app.get('/images', async (req, res) => {
+  try {
+    const images = await Image.find();
+    res.json(images);
+  } catch (error) {
+    console.error("Failed to fetch images:", error);
+    res.status(500).send({ success: false, message: "Failed to fetch images" });
+  }
+});
+
+// Route to submit a form
 app.post("/api/submit-form", async (req, res) => {
   console.log("Received body: ", req.body); // Log incoming data
 
@@ -35,7 +64,7 @@ app.post("/api/submit-form", async (req, res) => {
         .status(200)
         .send({ success: true, message: "Form submitted successfully." });
     } else {
-        console.log(apiData)
+      console.log(apiData);
       res
         .status(500)
         .send({
