@@ -1,36 +1,8 @@
-swagger: "2.0"
-info:
-  description: "API for submitting forms without persistent storage."
-  version: "1.0.0"
-  title: "Sample API"
-host: "localhost:3000"
-basePath: "/"
-schemes:
-- "http"
-paths:
-  /api/submit-form:
-    post:
-      summary: "Submits a form"
-      description: "Submits form data to Web3Forms."
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Form data to be submitted"
-          required: true
-          schema:
-            $ref: "#/definitions/FormSubmit"
-      responses:
-        200:
-          description: "Form submitted successfully"
-        500:
-          description: "Error in submitting form"
-definitions:
-  FormSubmit:
-    type: "object"
-    properties:
-      name:
-        type: "string"
-      email:
-        type: "string"
-      message:
-        type: "string"
+version: 0.1
+endpoints:
+  - name: Simple Image and Form Submission API
+    port: 3000
+    type: REST
+    networkVisibility: Public
+    context: /
+    schemaFilePath: openapi.yaml

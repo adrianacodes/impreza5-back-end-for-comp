@@ -1,0 +1,84 @@
+openapi: 3.0.0
+info:
+  title: Simple Image and Form Submission API
+  description: API to fetch images and submit forms.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Development server
+paths:
+  /images:
+    get:
+      summary: Get a list of images
+      responses:
+        '200':
+          description: A list of images
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Image'
+  /api/submit-form:
+    post:
+      summary: Submit a form
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FormSubmission'
+      responses:
+        '200':
+          description: Form submitted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '500':
+          description: Failed to submit form
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    additionalProperties: true
+components:
+  schemas:
+    Image:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          description: URL of the image
+        description:
+          type: string
+          description: Description of the image
+    FormSubmission:
+      type: object
+      properties:
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          format: email
+          example: john.doe@example.com
+        message:
+          type: string
+          example: Hello, this is a message.
+      required:
+        - name
+        - email
