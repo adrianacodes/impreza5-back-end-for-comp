@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  description: "API for managing images and submitting forms"
+  description: "API for submitting forms without persistent storage."
   version: "1.0.0"
   title: "Sample API"
 host: "localhost:3000"
@@ -8,19 +8,6 @@ basePath: "/"
 schemes:
 - "http"
 paths:
-  /images:
-    get:
-      summary: "Fetches all images"
-      description: "Returns a list of images from the MongoDB database."
-      responses:
-        200:
-          description: "A list of images"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Image"
-        500:
-          description: "Server error"
   /api/submit-form:
     post:
       summary: "Submits a form"
@@ -28,7 +15,7 @@ paths:
       parameters:
         - in: "body"
           name: "body"
-          description: "Form data"
+          description: "Form data to be submitted"
           required: true
           schema:
             $ref: "#/definitions/FormSubmit"
@@ -38,13 +25,6 @@ paths:
         500:
           description: "Error in submitting form"
 definitions:
-  Image:
-    type: "object"
-    properties:
-      url:
-        type: "string"
-      description:
-        type: "string"
   FormSubmit:
     type: "object"
     properties:
