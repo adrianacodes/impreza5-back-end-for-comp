@@ -2,7 +2,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const express = require('express');
-const mongoose = require('mongoose');
 const fetch = require("node-fetch");
 const cors = require("cors");
 
@@ -11,30 +10,12 @@ const app = express();
 app.use(express.json()); // Ensure express can parse JSON bodies
 app.use(cors()); // Apply CORS for all routes
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log("MongoDB connected successfully"))
-  .catch(err => console.error("MongoDB connection error:", err));
-
-// Image schema
-const ImageSchema = new mongoose.Schema({
-  url: String,
-  description: String
-});
-
-const Image = mongoose.model('Image', ImageSchema);
+// Example of a simple in-memory store
+let images = [{ url: "https://example.com/image1.jpg", description: "Sample Image 1" }];
 
 // Route to get images
 app.get('/images', async (req, res) => {
-  try {
-    const images = await Image.find();
-    res.json(images);
-  } catch (error) {
-    console.error("Failed to fetch images:", error);
-    res.status(500).send({ success: false, message: "Failed to fetch images" });
-  }
+  res.json(images);
 });
 
 // Route to submit a form
