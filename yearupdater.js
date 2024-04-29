@@ -14,7 +14,7 @@ cron.schedule('0 0 1 1 *', () => {
     updateYear();
 }, {
     scheduled: true,
-    timezone: "Your/Timezone"
+    timezone: "America/New_York"
 });
 
 // Manual trigger to update the year
