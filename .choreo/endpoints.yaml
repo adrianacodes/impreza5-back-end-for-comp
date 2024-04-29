@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.2  # Incremented version number to reflect new changes
 endpoints:
   - name: Simple Image and Form Submission API
     port: 3000
@@ -6,3 +6,17 @@ endpoints:
     networkVisibility: Public
     context: /
     schemaFilePath: openapi.yaml
+  - name: Get Current Year
+    port: 3000
+    type: REST
+    networkVisibility: Public
+    context: /current-year
+    method: GET  # Indicates that this endpoint supports GET requests
+    description: "Retrieves the current year stored in the server."
+  - name: Update Year Manually
+    port: 3000
+    type: REST
+    networkVisibility: Public
+    context: /update-year
+    method: POST  # Indicates that this endpoint supports POST requests
+    description: "Allows manual updating of the current year stored in the server."
